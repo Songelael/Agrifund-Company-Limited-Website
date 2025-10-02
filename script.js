@@ -63,7 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.5 });
 
     const impactSection = document.getElementById('impact');
-    if (impactSection) counterObserver.observe(impactSection);
+i18next.init({
+  lng: navigator.language, // inagundua lugha ya browser
+  resources: {
+    en: { translation: { "welcome": "Welcome" } },
+    sw: { translation: { "welcome": "Karibu" } },
+    fr: { translation: { "welcome": "Bienvenue" } },
+    es: { translation: { "welcome": "Bienvenido" } },
+    ar: { translation: { "welcome": "مرحبا" } },
+    zh: { translation: { "welcome": "欢迎" } }, // Chinese (Simplified)
+    hi: { translation: { "welcome": "स्वागत है" } }, // Hindi
+    pt: { translation: { "welcome": "Bem-vindo" } },
+    de: { translation: { "welcome": "Willkommen" } }
+  }
+}, function(err, t) {
+  document.getElementById("welcomeText").innerHTML = i18next.t('welcome');
+});
+if (impactSection) counterObserver.observe(impactSection);
 
     // --- APPLICATION FORM SUBMISSION ---
     const form = document.getElementById('application-form');
