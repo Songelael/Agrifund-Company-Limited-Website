@@ -103,3 +103,79 @@ if (impactSection) counterObserver.observe(impactSection);
         marquee.innerHTML += marquee.innerHTML; // duplicate for smooth loop
     }
 });
+// --- Initialize i18next ---
+i18next.init({
+    lng: 'en',
+    resources: {
+        en: {
+            translation: {
+                menu_about: "About Us",
+                menu_solution: "Our Solution",
+                menu_impact: "Impact",
+                menu_apply: "Apply Now",
+                hero_title: "Sowing Innovation, Reaping Prosperity",
+                hero_intro: "Empowering Tanzania's smallholder farmers through accessible technology, tailored financing, and expert knowledge.",
+                apply_button: "Request Funding or Equipment",
+                form_fullName: "Full Name",
+                form_fullName_placeholder: "Enter your full name",
+                form_phone: "Phone Number",
+                form_phone_placeholder: "Enter your phone number",
+                form_location: "Your Region/Location",
+                form_farmSize: "Farm Size (in Acres)",
+                form_service: "Service Required",
+                form_message: "Brief Message (Optional)",
+                form_submit: "Submit Application",
+                success_msg: "Thank you! Your application has been submitted successfully. We will contact you shortly.",
+                footer_connect: "Connect With Us",
+                footer_quickLinks: "Quick Links"
+            }
+        },
+        sw: {
+            translation: {
+                menu_about: "Kuhusu Sisi",
+                menu_solution: "Suluhisho Yetu",
+                menu_impact: "Athari",
+                menu_apply: "Omba Sasa",
+                hero_title: "Kupanda Ubunifu, Kuvuna Ufanisi",
+                hero_intro: "Tunawezesha wakulima wadogo wa Tanzania kupitia teknolojia rahisi na ufadhili unaofaa.",
+                apply_button: "Omba Fedha au Vifaa",
+                form_fullName: "Jina Kamili",
+                form_fullName_placeholder: "Weka jina lako kamili",
+                form_phone: "Nambari ya Simu",
+                form_phone_placeholder: "Weka nambari yako ya simu",
+                form_location: "Eneo Lako",
+                form_farmSize: "Ukubwa wa Shamba (Akares)",
+                form_service: "Huduma Inayohitajika",
+                form_message: "Ujumbe Mfupi (Hiari)",
+                form_submit: "Tuma Maombi",
+                success_msg: "Asante! Ombi lako limewasilishwa. Tutawasiliana nawe hivi karibuni.",
+                footer_connect: "Ungana Nasi",
+                footer_quickLinks: "Viungo vya Haraka"
+            }
+        },
+        fr: { translation: { /* French translations */ } },
+        es: { translation: { /* Spanish translations */ } },
+        ar: { translation: { /* Arabic translations */ } }
+    }
+}, function(err, t) {
+    updateContent();
+});
+
+// --- Update content function ---
+function updateContent() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.innerHTML = i18next.t(key);
+        if(el.placeholder !== undefined){
+            el.placeholder = i18next.t(key);
+        }
+    });
+}
+
+// --- Language switcher buttons ---
+document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        i18next.changeLanguage(lang, updateContent);
+    });
+});
