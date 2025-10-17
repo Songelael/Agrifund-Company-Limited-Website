@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AgriFund Submissions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #F9F7F3; }
+        h1, h2, th { font-family: 'Roboto', sans-serif; }
+        .text-agri-green { color: #2C5F2D; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-agri-green">Submissions Dashboard</h1>
+            <a href="index.html" class="bg-agri-green text-white px-5 py-2 rounded-full font-bold hover:bg-opacity-80 transition">&larr; Back to Application Form</a>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <div class="bg-white p-8 rounded-lg shadow-xl overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Date Submitted</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Full Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Phone</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Location</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Farm Size (Acres)</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Service Required</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Message</th>
+                    </tr>
+                </thead>
+                <tbody id="submissions-table-body" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+            </table>
+            <p id="no-submissions-message" class="text-center py-8 text-gray-500 hidden">No applications have been submitted yet.</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tableBody = document.getElementById('submissions-table-body');
+            const noSubmissionsMessage = document.getElementById('no-submissions-message');
+
+            // 1. Retrieve the submissions data from localStorage
+            const submissions = JSON.parse(localStorage.getItem('agriFundSubmissions')) || [];
+
+            // 2. Check if there are any submissions
+            if (submissions.length === 0) {
+                noSubmissionsMessage.classList.remove('hidden');
+            } else {
+                // 3. Loop through each submission and create a table row
+                submissions.forEach(submission => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${submission.submissionDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${submission.fullName}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${submission.phone}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${submission.location}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${submission.farmSize}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${submission.service}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${submission.message || '-'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
